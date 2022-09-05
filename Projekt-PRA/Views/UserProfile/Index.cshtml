@@ -1,0 +1,193 @@
+﻿@model praLib.Models.ViewModels.UserProfileEditModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>User Panel</h2>
+
+
+<div id="infoPanel" class="form">
+    @using (Html.BeginForm("EditData", "UserProfile", FormMethod.Post))
+    {
+        @Html.Label("Ime: ")
+        @Html.TextBoxFor(model => model.fName, new { @readonly = "readonly", @class="form-control" })
+        @Html.ValidationMessageFor(model => model.fName, "", new { @class = "text-danger" })
+        <br />
+        @Html.Label("Prezime: ")
+        @Html.TextBoxFor(model => model.lName, new { @readonly = "readonly", @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.lName, "", new { @class = "text-danger"})
+        <br />
+        @Html.Label("Datum rođenja: ")
+        @Html.TextBoxFor(model => model.oldBirthDate, new { @readonly = "readonly", @class = "form-control" })
+        @Html.TextBoxFor(model => model.newBirthDate, new { type = "date", @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.newBirthDate, "", new { @class = "text-danger" })
+        <br />
+        @Html.Label("Adresa: ")
+        @Html.TextBoxFor(model => model.address, new { @readonly = "readonly", @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+        <br />
+        @Html.Label("Grad: ")
+        @Html.TextBoxFor(model => model.city, new { @readonly = "readonly", @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.city, "", new { @class = "text-danger" })
+        <br />
+        @Html.Label("Poštanski broj: ")
+        @Html.TextBoxFor(model => model.cityPostNumber, new { @readonly = "readonly", @type = "number", @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.cityPostNumber, "", new { @class = "text-danger" })
+        <br />
+        <input type="submit" value="Promijeni podatke" class="btn btn-success" id="btnSubmitInfoForm" />
+    }
+<br />
+</div>
+
+<button id="btnPasswordPanel" class="btn btn-primary">Ponovno postavljanje lozinke</button>
+<button id="btnInfoPanel" class="btn btn-primary">Uređivanje podataka</button>
+<br />
+
+<div id="passwordResetPanel">
+    <br />
+    @Html.Label("Unesite novu lozinku: ")
+    @Html.TextBox("tbNewPassword", null, new  { @class = "form-control" })
+    <br />
+    @Html.Label("Potvrdite novu lozinku: ")
+    @Html.TextBox("tbNewPasswordConfirm", null, new { @class = "form-control" })
+    <label id="lblPasswordMatch" class="text-danger">Lozinke nisu iste</label>
+    <br />
+    <button id="btnSetNewPassword" class="btn btn-success">Postavi novu lozinku</button>
+</div>
+<br />
+<div style="width: 40%; float:left">
+
+    @if (Model.orderList != null)
+    {
+        <h2>Prijašnje narudžbe: </h2>
+        <br />
+        <table>
+            <tr>
+                <th>Slika</th>
+                <th>Naslov</th>
+                <th>Cijena</th>
+            </tr>
+            @foreach (var item in Model.orderList)
+            {
+                <tr>
+                    <td>
+                        <img src="@item.PutanjaSlika" height="150" width="150" />
+                    </td>
+                    <td align="center">
+                        @item.Naslov
+                    </td>
+                    <td align="right">
+                        @item.CijenaKupnja kn
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</div>
+
+<div style="width: 60%; float:right">
+    @if (Model.loanList != null)
+    {
+        <h2>Prijašnje posudbe: </h2>
+        <br />
+        <table class="p-2">
+            <tr>
+                <th>Slika</th>
+                <th>Naslov</th>
+                <th>Cijena</th>
+                <th>Datum posudbe</th>
+                <th>Datum vraćanja</th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model.loanList)
+            {
+
+                <tr>
+                    <td>
+                        <img src="@item.knjiga.PutanjaSlika" height="150" width="150" />
+                    </td>
+                    <td align="center">
+                        @item.knjiga.Naslov
+                    </td>
+                    <td align="center">
+                        @item.knjiga.CijenaPosudba
+                    </td>
+                    <td align="center">
+                        @item.posudba.DatumPosudbe.ToShortDateString()
+                    </td>
+                    <td align="center">
+                        @item.posudba.DatumVracanja.ToShortDateString()
+                    </td>
+                    <td align="right">
+                        @Html.ActionLink("Kupi", "Index", "Buy", new { id = item.knjiga.IDKnjiga }, new { @class = "btn btn-success" })
+                    </td>
+                </tr>
+
+            }
+        </table>
+    }
+</div>
+
+
+
+
+
+
+
+
+
+
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#passwordResetPanel").hide();
+        $("#lblPasswordMatch").hide();
+        $("#btnSaveData").hide();
+        $("#btnSubmitInfoForm").hide();
+        $("#newBirthDate").hide();
+        $("#lblEmptyPassword").hide();
+    });
+    $("#btnPasswordPanel").click(function () {
+        $("#btnPasswordPanel").hide();
+        $("#passwordResetPanel").show();
+    });
+    $("#btnSetNewPassword").click(function () {
+        var first = $("#tbNewPassword").val();
+        var second = $("#tbNewPasswordConfirm").val();
+
+
+        if (first != second) {
+            $("#lblPasswordMatch").show();
+            return;
+        }
+        else {
+            $("#lblPasswordMatch").hide();
+            $("#passwordResetPanel").hide();
+            $("#btnPasswordPanel").show();
+            $.ajax({
+                url: '@Url.Action("PasswordReset", "UserProfile")',
+                method: "POST",
+                data: { password: $("#tbNewPassword").val() },
+                success: function () {
+                    alert("Lozinka uspješno promjenjena!");
+                },
+                error: function (err) {
+                  alert("Error!");
+                 }
+            });
+        }
+    });
+</script>
+
+<script>$("#btnInfoPanel").click(function () {
+        $("#fName").prop("readonly", false);
+        $("#lName").prop("readonly", false);
+        $("#address").prop("readonly", false);
+        $("#city").prop("readonly", false);
+        $("#cityPostNumber").prop("readonly", false);
+        $("#btnSaveData").show();
+        $("#oldBirthDate").hide();
+        $("#btnSubmitInfoForm").show();
+        $("#newBirthDate").show();
+    });</script>
+

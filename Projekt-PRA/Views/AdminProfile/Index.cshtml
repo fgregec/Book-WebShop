@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Admin panel</h2>
+<br />
+<div>
+    <button id="btnPasswordPanel" class="btn btn-primary">Ponovno postavljanje lozinke</button>
+</div>
+<br />
+<div>
+    @Html.ActionLink("Dodavanje novog djelatnika", "NewAdmin", "AdminProfile", new { @class = "btn btn-primary" })
+</div>
+<br />
+<div>
+    @Html.ActionLink("Dodavanje nove knjige", "NewBook", "AdminProfile", new { @class = "btn btn-primary" })
+</div>
+<br />
+<div>
+    @Html.ActionLink("Book Manager", "List", "AdminProfile", new { @class = "btn btn-primary" })
+</div>
+<br />
+<div>
+    @Html.ActionLink("Posudbe", "Loans", "AdminProfile", new { @class = "btn btn-primary" })
+</div>
+<div id="passwordResetPanel">
+    @Html.Label("Unesite novu lozinku: ")
+    @Html.TextBox("tbNewPassword", null, new { @class = "form-control" })
+    <br />
+    @Html.Label("Potvrdite novu lozinku: ")
+    @Html.TextBox("tbNewPasswordConfirm", null, new { @class = "form-control" })
+    <br />
+    <label id="lblPasswordMatch" class="text-danger">Lozinke nisu iste</label>
+    <br />
+    <button id="btnSetNewPassword" class="btn btn-success">Postavi novu lozinku</button>
+</div>
+
+
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#passwordResetPanel").hide();
+        $("#lblPasswordMatch").hide();
+    });
+    $("#btnPasswordPanel").click(function () {
+        $("#btnPasswordPanel").hide();
+        $("#passwordResetPanel").show();
+    });
+    $("#btnSetNewPassword").click(function () {
+        var first = $("#tbNewPassword").val();
+        var second = $("#tbNewPasswordConfirm").val();
+        if (first != second) {
+            $("#lblPasswordMatch").show();
+            return;
+        }
+        else {
+            $("#lblPasswordMatch").hide();
+            $("#passwordResetPanel").hide();
+            $("#btnPasswordPanel").show();
+            $.ajax({
+                url: '@Url.Action("PasswordReset", "AdminProfile")',
+                method: "POST",
+                data: { password: $("#tbNewPassword").val() },
+                success: function () {
+                    alert("Lozinka uspješno promjenjena!");
+                },
+                error: function (err) {
+                  alert("Error!");
+                 }
+            });
+        }
+    });
+</script>

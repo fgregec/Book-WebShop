@@ -1,0 +1,21 @@
+﻿
+<!--   Top bar    -->
+<div class="navbar bg-light sticky-top m-0 p-0" style="height:10%;">
+    <div class="d-flex justify-content-between w-100 py-3 border-bottom m-0">
+
+        <!--   Brand name    -->
+        <div class="navbar-brand">
+            @Html.ActionLink("ReadOnly", "Index", "Home", null, new { @class = "navbar-brand text-dark m-3" })
+        </div>
+
+        <!--   Search TextBox    -->
+        @*@Html.TextBox("tbSearch", null, new { placeholder = "Search...", @class = "form-control" })*@
+
+        <!--   LoginPartial    -->
+        <div class="navbar-nav">
+            <div class="nav-item text-nowrap ">
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+</div>

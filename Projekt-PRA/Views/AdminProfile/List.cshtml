@@ -1,0 +1,88 @@
+﻿@model IEnumerable<praLib.Models.Knjiga>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.jqueryui.min.css" />
+</head>
+
+<h2>Popis knjiga</h2>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.IDKnjiga)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Naslov)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.AutorID)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.ISBN)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.CijenaKupnja)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.CijenaPosudba)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Kolicina)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <th scope="row">
+                @Html.DisplayFor(model => item.IDKnjiga)
+            </th>
+            <td>
+                @Html.DisplayFor(model => item.Naslov)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.AutorID)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.ISBN)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.CijenaKupnja)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.CijenaPosudba)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Kolicina)
+            </td>
+            <td>
+                @Html.ActionLink("EDIT", "Edit", "AdminProfile", new { bookID = item.IDKnjiga },new { @class = "btn btn-warning" })
+            </td>
+            <td>
+                @Html.ActionLink("DELETE", "Delete", "AdminProfile", new { bookID = item.IDKnjiga }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.jqueryui.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+</script>

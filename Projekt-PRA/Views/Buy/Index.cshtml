@@ -1,0 +1,61 @@
+﻿@model praLib.Models.BuyModel
+
+@{
+    ViewBag.Title = "Index";
+    string ime = ViewBag.Ime;
+    string prezime = ViewBag.Prezime;
+    string adresa = ViewBag.Adresa;
+    string city = ViewBag.City;
+}
+
+<h2>Kupnja knjige</h2>
+
+@*<div class="form-check">
+        <input class="form-check-input" type="radio" name="payment" id="flexRadioDefault2" value="PayPal">
+        <label class="form-check-label" for="flexRadioDefault2">
+            PayPal
+        </label>
+    </div>*@
+@if (ViewBag.Success != true)
+{
+
+    using (Html.BeginForm())
+    {
+<div class="d-flex flex-column form">
+    @Html.Label("Ime:")
+    @Html.TextBox("fName", ime, new { htmlAttributes = new { @class = "form-control" }, @readonly = "readonly" })
+    @Html.ValidationMessageFor(model => model.fName, "", new { @class = "text-danger" })
+    @Html.Label("Prezime:")
+    @Html.TextBox("lName", prezime, new { htmlAttributes = new { @class = "form-control" }, @readonly = "readonly" })
+    @Html.ValidationMessageFor(model => model.lName, "", new { @class = "text-danger" })
+    @Html.Label("Adresa:")
+    @Html.TextBox("address", adresa, new { htmlAttributes = new { @class = "form-control" }, @readonly = "readonly" })
+    @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+    @Html.Label("Grad:")
+    @Html.TextBox("city", city, new { htmlAttributes = new { @class = "form-control" }, @readonly = "readonly" })
+    @Html.ValidationMessageFor(model => model.city, "", new { @class = "text-danger" })
+    @Html.Label("Vrsta plaćanja:")
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="payment" id="flexRadioDefault1" value="Gotovina">
+        <label class="form-check-label" for="flexRadioDefault1">
+            Gotovina
+        </label>
+    </div>
+    @Html.ValidationMessageFor(model => model.payment, "", new { @class = "text-danger" })
+    <input type="submit" class="btn btn-success" />
+</div>
+    }
+}
+
+@if (ViewBag.Success == true)
+{
+    <h1>Narudžba uspješna</h1>
+    <script>
+       setTimeout(function () {
+       window.location.replace('@Url.Action("Index", "Home")')
+       }, 2000);
+    </script>
+}
+
+
+<script src="~/Scripts/jquery.validate.min.js"></script>

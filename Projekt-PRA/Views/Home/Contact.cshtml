@@ -1,0 +1,66 @@
+﻿@model praLib.Models.ViewModels.MailModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<head>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        input[type=text], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 16px;
+            resize: vertical;
+            max-width:1000px;
+        }
+
+        input[type=submit] {
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+
+        .container {
+            border-radius: 5px;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+@using (Html.BeginForm())
+{
+<div class="container bg-light">
+
+    <label>E-mail</label>
+    <br />
+    @Html.TextBoxFor(model => model.Email, new { @placeholder = "test@knjizara.hr", @type = "email", @style = "width:300px; height:50px;", @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+    <br />
+    <label>Naslov</label>
+    @Html.TextBoxFor(model => model.Subject, new { @placeholder = "Naslov poruke" })
+    @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+    <br />
+    @Html.TextAreaFor(model => model.Message, new { @style = "height:400px;", @placeholder = "Poruka" })
+    @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+<br />
+    <input type="submit" value="Submit" class="btn btn-success">
+</div>
+}
+
+
+
+
+

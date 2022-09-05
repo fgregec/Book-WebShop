@@ -1,0 +1,13 @@
+﻿
+<div class="d-flex justify-content-center align-items-center mx-3">
+    @if (Session["kupac"] != null || Session["djelatnik"] != null)
+    {
+        @Html.ActionLink("Logout", "Index", "Login", null, new { @class = "btn btn-danger" })
+    }
+    else
+    {
+        @Html.ActionLink("Log in", "Index", "Login", null, new { @class = "btn btn-success m-1" })
+        @Html.ActionLink("Register", "Index", "Register", null, new { @class = "btn btn-danger" })
+    }
+
+</div>

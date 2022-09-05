@@ -1,0 +1,75 @@
+﻿@model IEnumerable<praLib.Models.Posudba>
+
+@{
+    ViewBag.Title = "Loans";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Posudbe</h2>
+
+<p>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IDPosudbe)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KupacID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KnjigaID)
+        </th>
+        <th>
+            @Html.DisplayName("Datum posudbe")
+        </th>
+        <th>
+            @Html.DisplayName("Datum vracanja")
+        </th>
+        <th>
+            @Html.DisplayName("Vrsta placanja")
+        </th>
+        <th>
+            @Html.DisplayName("Vraceno")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IDPosudbe)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KupacID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KnjigaID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DatumPosudbe)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DatumVracanja)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VrstaPlacanja)
+        </td>
+        <td>
+            @if (item.IsReturned)
+            {
+            <span>&#10004;</span>	
+            }
+            else
+            {
+            <span>&#10060;</span>
+            }
+        </td>
+        <td>
+            @Html.ActionLink("RETURN", "BookReturned", "AdminProfile", new { orderID = item.IDPosudbe}, new { @class = "btn btn-warning" })
+            @Html.ActionLink("DELETE", "DeleteLoan", "AdminProfile", new { orderID = item.IDPosudbe }, new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>

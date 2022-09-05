@@ -1,0 +1,100 @@
+﻿@using praLib.Models;
+@{
+    ViewBag.Title = "Index";
+    IList<Knjiga> knjige = ViewBag.Knjige as List<Knjiga>;
+    IList<Autor> autori = ViewBag.Autori as List<Autor>;
+}
+
+
+<div class="container m-4 row ">
+    @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+    {
+        <div class="d-flex align-items-center justify-content-start my-4">
+            @Html.TextBox("search", null, new { placeholder = "Search...", @class = "form-control mx-2" })
+            Items per page:
+            @Html.DropDownList(name: "ddlNumber", selectList: new List<SelectListItem> { new SelectListItem { Text = "10", Value = "0", Selected = ViewBag.pickedNumber == "10" ? true : false }, new SelectListItem { Text = "15", Value = "1", Selected = ViewBag.pickedNumber == "15" ? true : false }, new SelectListItem { Text = "20", Value = "2", Selected = ViewBag.pickedNumber == "20" ? true : false } }, optionLabel: "-", htmlAttributes: new { @class = "form-select mx-2", @style = "width:80px" })
+            Sort by:
+            @Html.DropDownList(name: "sort", selectList: new List<SelectListItem> { new SelectListItem { Text = "Abecedno", Value = "Abecedno" }, new SelectListItem { Text = "Najčitanije", Value = "Najčitanije" } }, optionLabel: "-", htmlAttributes: new { @class = "form-select  mx-2", @style = "width:160px;" })
+            <input type="submit" value="Search" class="btn btn-primary mx-2" />
+
+        </div>
+    }
+
+
+    <div class="d-flex flex-row flex-wrap align-items-stretch justify-content-center">
+        @foreach (Knjiga knjiga in knjige)
+        {
+            <div class="card m-1" style="width: 240px;">
+                <img height="325" src="@knjiga.PutanjaSlika" class="card-img-top" alt="...">
+                <div class="card-body d-flex flex-column justify-content-evenly">
+                    <h5 class="card-title text-wrap">@knjiga.Naslov</h5>
+                    @foreach (Autor autor in autori)
+                    {
+                        if (autor.IDAutor == knjiga.AutorID)
+                        {
+                            @Html.ActionLink($"{autor.Ime} {autor.Prezime}", "Index", "Autor", new { id = knjiga.AutorID }, new { @class = "card-text" })
+                        }
+                    }
+                    <p></p>
+                    @Html.ActionLink("Detalji", "Details", "Home", new { id = knjiga.IDKnjiga }, new { @class = "btn btn-primary align-self-end" })
+
+
+                </div>
+            </div>
+        }
+
+    </div>
+
+</div>
+
+    @if (Session["kupac"] == null)
+    {
+        <div id="myModal" class="modal" tabindex="-1" role="dialog" style="display: block">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Obavijest</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="remove()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Ulogirajte se kako bi mogli posuđivati ili kupovati knjige.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="remove()">Zatvori</button>
+                        <a class="btn btn-success m-1" href="/Login">Log in</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (Session["djelatnik"] != null)
+    {
+        <script>
+            document.getElementById("myModal").style.display = "none";
+        </script>
+    }
+
+    <script>
+        function remove() {
+            document.getElementById("myModal").style.display = "none";
+        }
+    </script>
+
+
+    <script>
+        function getVal() {
+            var selectedVal = document.getElementById("ddl_reportId").value;
+            window.location.href = "/Home/Index?sortOrder=" + selectedVal;
+        };
+    </script>
+
+    <script type="text/javascript">
+        function SelectedIndexChanged() {
+            //Form post
+            document.Form.submit();
+        }
+    </script>
+

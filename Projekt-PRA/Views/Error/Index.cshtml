@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string error = ViewBag.Error as string;
+}
+
+<div class="container">
+    <h1>Error</h1>
+    <div class="alert alert-warning">
+        <p>@error</p>
+    </div>
+    <hr />
+    @Html.ActionLink("Naslovna stranica", "Index", "Home")
+</div>

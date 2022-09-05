@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html class="h-100">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+</head>
+<body class="p-0 h-100" style="overflow-wrap:normal;">
+    @Html.Partial("_Topbar")
+    <div class="container-fluid p-0" style="height:90%;">
+        <div class="d-flex p-0 m-0" style="height:100%;">
+            @Html.Partial("_Sidebar")
+            <div class="p-3">
+                @RenderBody()
+                @Html.Partial("_Footer")
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>

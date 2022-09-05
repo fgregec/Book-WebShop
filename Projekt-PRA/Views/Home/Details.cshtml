@@ -1,0 +1,39 @@
+﻿@model praLib.Models.Knjiga
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<div class="container m-4">
+    <h4>@Html.DisplayFor(model => model.Naslov)</h4>
+    <hr />
+    <div class=" d-flex align-items-center justify-content-center">
+        <div class="row">
+            <div class="col-4">
+                <image src="@Model.PutanjaSlika" style="width:200px; height:300px;"></image>
+            </div>
+            <div class="col-8 p-4">
+                <h5>Description</h5>
+                <p>@Html.DisplayFor(model => model.Opis)</p>
+                <div class="d-flex justify-content-around">
+                        <ul>
+                            <li>ISBN: @Html.DisplayFor(model => model.ISBN)</li>
+                            <li>Items on stock: @Html.DisplayFor(model => model.Kolicina) </li>
+                        </ul>
+                        <ul>
+                            <li>Borrow for  @Html.DisplayFor(model => model.CijenaPosudba) kn</li>
+                            <li>Buy for @Html.DisplayFor(model => model.CijenaKupnja) kn</li>
+                        </ul>
+                </div>
+                <div class="d-flex justify-content-end">
+                    @if (Model.Kolicina != 0)
+                    {
+                        @Html.ActionLink("Posudi", "Index", "Loan", new { id = Model.IDKnjiga }, new { @class = "btn btn-primary m-1" })
+                        @Html.ActionLink("Kupi", "Index", "Buy", new { id = Model.IDKnjiga }, new { @class = "btn btn-primary m-1" })
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
